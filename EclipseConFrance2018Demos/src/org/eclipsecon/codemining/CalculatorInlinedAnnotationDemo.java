@@ -32,19 +32,6 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-/**
- * An inlined demo with {@link LineHeaderAnnotation} and
- * {@link LineContentAnnotation} annotations both:
- *
- * <ul>
- * <li>a status OK, NOK is displayed before the line which starts with 'color:'.
- * This status is the result of the content after 'color' which must be a rgb
- * content. Here {@link ColorStatusAnnotation} is used.</li>
- * <li>a colorized square is displayed before the rgb declaration (inside the
- * line content). Here {@link ColorAnnotation} is used.</li>
- * </ul>
- *
- */
 public class CalculatorInlinedAnnotationDemo {
 
 	public static void main(String[] args) throws Exception {
@@ -140,11 +127,6 @@ public class CalculatorInlinedAnnotationDemo {
 					result = new LineContentAnnotation(pos, viewer);
 				}
 				int compute = Integer.parseInt(text.substring(0, 1)) + Integer.parseInt(text.substring(2, 3));
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {					
-					e.printStackTrace();
-				}
 				result.setText("=" + compute);
 				annotations.add(result);
 			}
