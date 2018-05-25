@@ -1,2 +1,3 @@
 # EclipseConFrance2018
-Presentation and demos for CodeMining session at EclipseCon France 2018
+
+This repository hosts my presentation and demos for [CodeMining session](https://www.eclipsecon.org/france2018/session/codemining) at EclipseCon France 2018.
