@@ -1,13 +1,3 @@
-/**
- *  Copyright (c) 2017 Angelo ZERR.
- *  All rights reserved. This program and the accompanying materials
- *  are made available under the terms of the Eclipse Public License v1.0
- *  which accompanies this distribution, and is available at
- *  http://www.eclipse.org/legal/epl-v10.html
- *
- *  Contributors:
- *  Angelo Zerr <angelo.zerr@gmail.com> - [CodeMining] Provide inline annotations support - Bug 527675
- */
 package org.eclipsecon.codemining;
 
 import java.util.HashSet;
@@ -32,14 +22,14 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
-public class CalculatorInlinedAnnotationDemo {
+public class CalculatorWithInlinedAnnotation {
 
 	public static void main(String[] args) throws Exception {
 
 		Display display = new Display();
 		Shell shell = new Shell(display);
 		shell.setLayout(new FillLayout());
-		shell.setText("Calculator Inlined annotation demo");
+		shell.setText("Calculator with inlined annotation");
 
 		// Create source viewer and initialize the content
 		ISourceViewer sourceViewer = new SourceViewer(shell, null, SWT.V_SCROLL | SWT.BORDER);
