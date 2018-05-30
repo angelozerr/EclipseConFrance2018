@@ -11,17 +11,6 @@
             priority="high">
       </content-type>
    </extension>
-
-   <extension
-         point="org.eclipse.ui.editors">
-      <editor
-            name="Emoji Editor"
-            extensions="emoji"
-            icon="icons/sample.png"
-            class="org.eclipsecon.codemining.emoji.editor.EmojiEditor"
-            id="org.eclipsecon.codemining.emoji">
-      </editor>
-   </extension>
       
    <!-- ================== CodeMining support for .emoji ================== -->
    <!-- 1) register CodeMining provider with extension point -->
@@ -40,5 +29,25 @@
            </enabledWhen>
       </codeMiningProvider>
    </extension>
+   <!-- 2) update CodeMining provider with a reconciler (only for Generic Editor) -->
+   <extension
+         point="org.eclipse.ui.genericeditor.reconcilers">
+      <reconciler
+            class="org.eclipse.jface.text.codemining.CodeMiningReconciler"
+            contentType="org.eclipsecon.codemining.emoji">
+      </reconciler>
+   </extension>   
 
+   <!-- Defines a custom Emoji Editor to define with Java code a reconclier which update minings. This editor is not required if you wish to use only GenericEditor  -->
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Emoji Editor"
+            extensions="emoji"
+            icon="icons/sample.png"
+            class="org.eclipsecon.codemining.emoji.editor.EmojiEditor"
+            id="org.eclipsecon.codemining.emoji">
+      </editor>
+   </extension>
+   
 </plugin>
