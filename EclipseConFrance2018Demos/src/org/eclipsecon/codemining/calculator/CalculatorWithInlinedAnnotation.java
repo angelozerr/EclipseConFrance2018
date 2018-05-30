@@ -1,4 +1,4 @@
-package org.eclipsecon.codemining;
+package org.eclipsecon.codemining.calculator;
 
 import java.util.HashSet;
 import java.util.Set;

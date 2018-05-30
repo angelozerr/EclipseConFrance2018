@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.core.contenttype.contentTypes">
+      <content-type
+            base-type="org.eclipse.core.runtime.text"
+            file-extensions="emoji"         
+            id="emoji"
+            name="Emoji"
+            priority="high">
+      </content-type>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="Emoji Editor"
+            extensions="emoji"
+            icon="icons/sample.png"
+            class="org.eclipsecon.codemining.emoji.editor.EmojiEditor"
+            id="org.eclipsecon.codemining.emoji">
+      </editor>
+   </extension>
+      
+   <!-- ================== CodeMining support for .emoji ================== -->
+   <!-- 1) register CodeMining provider with extension point -->
+   <extension
+      point="org.eclipse.ui.workbench.texteditor.codeMiningProviders">
+      <codeMiningProvider
+           class="org.eclipsecon.codemining.emoji.EmojiCodeMiningProvider"
+           id="org.eclipsecon.codemining.emoji"
+           label="Emoji">
+           <enabledWhen>
+           	  <with variable="editorInput">
+                 <adapt type="org.eclipse.core.resources.IFile">
+                   <test property="org.eclipse.core.resources.contentTypeId" value="org.eclipsecon.codemining.emoji" />
+                 </adapt>
+           	  </with>
+           </enabledWhen>
+      </codeMiningProvider>
+   </extension>
+
+</plugin>

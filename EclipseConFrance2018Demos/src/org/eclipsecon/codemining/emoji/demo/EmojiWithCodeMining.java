@@ -1,18 +1,18 @@
-package org.eclipsecon.codemining;
+/**
+ *  Copyright (c) 2018, Angelo ZERR and others.
+ *  All rights reserved. This program and the accompanying materials
+ *  are made available under the terms of the Eclipse Public License v1.0
+ *  which accompanies this distribution, and is available at
+ *  http://www.eclipse.org/legal/epl-v10.html
+ *
+ *  Contributors:
+ *  Angelo Zerr <angelo.zerr@gmail.com> - [CodeMining] CodeMining should support line header/content annotation type both - Bug 529115
+ */
+package org.eclipsecon.codemining.emoji.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.Document;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.ITextViewerExtension2;
-import org.eclipse.jface.text.codemining.AbstractCodeMiningProvider;
-import org.eclipse.jface.text.codemining.ICodeMining;
 import org.eclipse.jface.text.codemining.ICodeMiningProvider;
-import org.eclipse.jface.text.codemining.LineContentCodeMining;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.jface.text.source.AnnotationModel;
 import org.eclipse.jface.text.source.AnnotationPainter;
@@ -24,8 +24,12 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipsecon.codemining.EmojiParser.Emoji;
+import org.eclipsecon.codemining.emoji.EmojiCodeMiningProvider;
 
+/**
+ * Code Mining demo with Emoji
+ *
+ */
 public class EmojiWithCodeMining {
 
 	public static void main(String[] args) throws Exception {
@@ -37,17 +41,18 @@ public class EmojiWithCodeMining {
 
 		// Create source viewer and initialize the content
 		ISourceViewer sourceViewer = new SourceViewer(shell, null, SWT.V_SCROLL | SWT.BORDER);
-		sourceViewer.setDocument(new Document("Here some emoji like :phone: and :umbrella: "), new AnnotationModel());
+		sourceViewer.setDocument(new Document("Here some emoji like :phone:, :umbrella: \nand :heart:"),
+				new AnnotationModel());
 
 		// Initialize code mining support
 		((ISourceViewerExtension5) sourceViewer).setCodeMiningAnnotationPainter(createAnnotationPainter(sourceViewer));
 		((ISourceViewerExtension5) sourceViewer)
-				.setCodeMiningProviders(new ICodeMiningProvider[] { new CalculatorCodeMiningProvider() });
+				.setCodeMiningProviders(new ICodeMiningProvider[] { new EmojiCodeMiningProvider() });
 
 		sourceViewer.getTextWidget().addModifyListener(e -> {
+			// Update code minings when text changed
 			((ISourceViewerExtension5) sourceViewer).updateCodeMinings();
 		});
-		((ISourceViewerExtension5) sourceViewer).updateCodeMinings();
 
 		shell.open();
 		while (!shell.isDisposed()) {
@@ -55,28 +60,6 @@ public class EmojiWithCodeMining {
 				display.sleep();
 		}
 		display.dispose();
-	}
-
-	private static class CalculatorCodeMiningProvider extends AbstractCodeMiningProvider {
-
-		@Override
-		public CompletableFuture<List<? extends ICodeMining>> provideCodeMinings(ITextViewer viewer,
-				IProgressMonitor monitor) {
-			return CompletableFuture.supplyAsync(() -> {
-				List<ICodeMining> minings = new ArrayList<>();
-				IDocument document = viewer.getDocument();
-				String text = document.get();
-				List<Emoji> emojis = EmojiParser.extractEmojis(text);
-				for (Emoji emoji : emojis) {
-					String uniCode = EmojiParser.getUniCode(emoji.tagName);
-					LineContentCodeMining mining = new LineContentCodeMining(emoji.position, null) {
-					};
-					mining.setLabel(uniCode != null ? " [" + uniCode + "]": "");
-					minings.add(mining);
-				}
-				return minings;
-			});
-		}
 	}
 
 	/**
@@ -106,21 +89,5 @@ public class EmojiWithCodeMining {
 		AnnotationPainter painter = new AnnotationPainter(viewer, annotationAccess);
 		((ITextViewerExtension2) viewer).addPainter(painter);
 		return painter;
-	}
-
-	private static String validate(String text) {
-		if (text.length() < 4) {
-			return "Text must be >=4";
-		}
-		if (!Character.isDigit(text.charAt(0))) {
-			return "First character must be a number";
-		}
-		if (text.charAt(1) != '+') {
-			return "Second character must be +";
-		}
-		if (!Character.isDigit(text.charAt(2))) {
-			return "Third character must be a number";
-		}
-		return null;
 	}
 }
