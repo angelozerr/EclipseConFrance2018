@@ -1,6 +1,5 @@
 package org.eclipsecon.codemining.emoji;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,9 +15,6 @@ import org.eclipse.jface.text.codemining.AbstractCodeMiningProvider;
 import org.eclipse.jface.text.codemining.ICodeMining;
 import org.eclipse.jface.text.codemining.LineContentCodeMining;
 import org.eclipse.jface.text.codemining.LineHeaderCodeMining;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.browser.IWebBrowser;
-import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 import org.eclipsecon.codemining.emoji.EmojiParser.Emoji;
 
 public class EmojiCodeMiningProvider extends AbstractCodeMiningProvider {
@@ -45,23 +41,7 @@ public class EmojiCodeMiningProvider extends AbstractCodeMiningProvider {
 							// Display emoji unicode before the emoji with line content annotation
 							String uniCode = EmojiParser.getUniCode(emoji.tagName);
 							Position pos = new Position(startLineOffset + emoji.offset, 1);
-							LineContentCodeMining mining = new LineContentCodeMining(pos, this, e -> {
-								try {
-									// open emoji detail from emojipedia website on click on emoji
-									IWorkbenchBrowserSupport browserSupport = PlatformUI.getWorkbench()
-											.getBrowserSupport();
-									IWebBrowser browser = browserSupport
-											.createBrowser(
-													IWorkbenchBrowserSupport.LOCATION_BAR
-															| IWorkbenchBrowserSupport.NAVIGATION_BAR,
-													null, null, null);
-									browser.openURL(new URL("https://emojipedia.org/" + uniCode));
-								} catch (Exception e1) {
-									e1.printStackTrace();
-								}
-							}) {
-							};
-							mining.setLabel(uniCode != null ? " [" + uniCode + "]" : "");
+							LineContentCodeMining mining = new EmojiLineContentCodeMining(uniCode, pos, this);
 							minings.add(mining);
 						}
 						emojiByLineCount.put(i, emojis.size());
@@ -76,9 +56,7 @@ public class EmojiCodeMiningProvider extends AbstractCodeMiningProvider {
 				try {
 					int line = entry.getKey();
 					int totalLine = entry.getValue();
-					LineHeaderCodeMining mining = new LineHeaderCodeMining(line, document, this) {
-					};
-					mining.setLabel(totalLine + "/" + total + " emoji" + (totalLine > 1 ? "s" : ""));
+					LineHeaderCodeMining mining = new EmojiLineHeaderCodeMining(line, document, total, totalLine, this);
 					minings.add(mining);
 				} catch (BadLocationException e) {
 					e.printStackTrace();
