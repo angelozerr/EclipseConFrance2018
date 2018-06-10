@@ -51,6 +51,13 @@ public class EmojiParser {
 	}
 
 	public static String getUniCode(String tagName) {
+		/*synchronized (mappings) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				Thread.interrupted();
+			}
+		}*/
 		return mappings.get(tagName);
 	}
 }

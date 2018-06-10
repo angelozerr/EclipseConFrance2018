@@ -39,9 +39,8 @@ public class EmojiCodeMiningProvider extends AbstractCodeMiningProvider {
 					if (!emojis.isEmpty()) {
 						for (Emoji emoji : emojis) {
 							// Display emoji unicode before the emoji with line content annotation
-							String uniCode = EmojiParser.getUniCode(emoji.tagName);
 							Position pos = new Position(startLineOffset + emoji.offset, 1);
-							LineContentCodeMining mining = new EmojiLineContentCodeMining(uniCode, pos, this);
+							LineContentCodeMining mining = new EmojiLineContentCodeMining(emoji.tagName, pos, this);
 							minings.add(mining);
 						}
 						emojiByLineCount.put(i, emojis.size());
