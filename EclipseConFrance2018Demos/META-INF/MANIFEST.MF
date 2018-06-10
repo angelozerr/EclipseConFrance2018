@@ -9,4 +9,5 @@ Require-Bundle: org.eclipse.swt;bundle-version="3.107.0",
  org.eclipse.jface.text;bundle-version="3.13.0",
  org.eclipse.equinox.registry,
  org.eclipse.ui.editors,
- org.eclipse.ui
+ org.eclipse.ui,
+ org.eclipse.ui.workbench.texteditor;bundle-version="3.11.100"

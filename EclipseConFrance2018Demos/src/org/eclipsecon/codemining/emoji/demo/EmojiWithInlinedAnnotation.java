@@ -102,13 +102,13 @@ public class EmojiWithInlinedAnnotation {
 				List<Emoji> emojis = EmojiParser.extractEmojis(lineText);
 				if (!emojis.isEmpty()) {
 					for (Emoji emoji : emojis) {
-						// Display emoji unicode before the emoji with line content annotation
-						String uniCode = EmojiParser.getUniCode(emoji.tagName);
+						// Display emoji unicode before the emoji with line content annotation						
 						Position pos = new Position(startLineOffset + emoji.offset, 1);
 						LineContentAnnotation annotation = support.findExistingAnnotation(pos);
 						if (annotation == null) {
 							annotation = new LineContentAnnotation(pos, viewer);
 						}
+						String uniCode = EmojiParser.getUniCode(emoji.tagName);
 						annotation.setText(uniCode != null ? "[" + uniCode + "]" : "");
 						annotations.add(annotation);
 					}
