@@ -38,6 +38,8 @@ public class EmojiCodeMiningProvider extends AbstractCodeMiningProvider {
 					List<Emoji> emojis = EmojiParser.extractEmojis(lineText);
 					if (!emojis.isEmpty()) {
 						for (Emoji emoji : emojis) {
+							// check monitor to stop the minings creation if need
+							monitor.isCanceled();
 							// Display emoji unicode before the emoji with line content annotation
 							Position pos = new Position(startLineOffset + emoji.offset, 1);
 							LineContentCodeMining mining = new EmojiLineContentCodeMining(emoji.tagName, pos, this);
